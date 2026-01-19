@@ -1,3 +1,14 @@
-/* You can add global styles to this file, and also import other style files */
+@import 'tailwindcss';
 
-@import "tailwindcss";
+html {
+  scroll-behavior: smooth;
+}
+
+/* Navbar is h-14 = 56px */
+section[id] {
+  scroll-margin-top: 64px;
+}
+
+.no-scroll {
+  overflow: hidden;
+}
