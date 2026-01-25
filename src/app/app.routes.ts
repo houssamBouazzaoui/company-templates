@@ -6,5 +6,5 @@ export const routes: Routes = [
     loadComponent: () => import('./core/layout/shell/shell').then((m) => m.Shell),
     children: [],
   },
-  { path: '**', redirectTo: '' },
+  { path: '**', redirectTo: '', pathMatch: 'full' },
 ];
