@@ -1,14 +1,1 @@
 @import 'tailwindcss';
-
-html {
-  scroll-behavior: smooth;
-}
-
-/* Navbar is h-14 = 56px */
-section[id] {
-  scroll-margin-top: 64px;
-}
-
-.no-scroll {
-  overflow: hidden;
-}
