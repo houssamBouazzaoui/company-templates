@@ -1,10 +1,19 @@
 <div class="p-3">
-  <div class="text-sm">
+  <div class="flex items-center gap-2 text-sm">
     <span class="font-semibold">API:</span>
-    <span class="ml-2">{{ apiStatus }}</span>
+
+    @if (apiStatus === 'idle') {
+      <span class="opacity-70">checking…</span>
+    } @else if (apiStatus === 'ok') {
+      <span>OK ✅</span>
+    } @else {
+      <span>ERROR ❌</span>
+    }
   </div>
 
-  <div class="mt-2 text-xs opacity-70">shell instance: {{ instanceId }}</div>
-
-  <div class="mt-1 text-xs opacity-70">SHELL_RENDER_MARKER_9f2c</div>
+  @if (apiError) {
+    <pre class="mt-2 whitespace-pre-wrap rounded border p-2 text-sm"
+      >{{ apiError }}
+    </pre>
+  }
 </div>

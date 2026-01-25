@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ApiClient } from '../../api/api-client.service';
 
@@ -10,35 +10,20 @@ import { ApiClient } from '../../api/api-client.service';
   styleUrl: './shell.css',
 })
 export class Shell implements OnInit {
-  instanceId = Math.random().toString(16).slice(2, 10);
-
   apiStatus: 'idle' | 'ok' | 'error' = 'idle';
   apiError: string | null = null;
 
-  constructor(
-    private readonly api: ApiClient,
-    private readonly cdr: ChangeDetectorRef,
-  ) {
-    console.log(`[Shell ${this.instanceId}] constructor`);
-  }
+  constructor(private readonly api: ApiClient) {}
 
   ngOnInit(): void {
-    console.log(`[Shell ${this.instanceId}] ngOnInit start`);
     this.api.healthDb().subscribe({
-      next: (res) => {
-        console.log(`[Shell ${this.instanceId}] healthDb ok:`, res);
+      next: () => {
         this.apiStatus = 'ok';
         this.apiError = null;
-
-        // ✅ force the view to update no matter what
-        this.cdr.detectChanges();
       },
       error: (err) => {
-        console.log(`[Shell ${this.instanceId}] healthDb error:`, err);
         this.apiStatus = 'error';
         this.apiError = err?.message ?? (typeof err === 'string' ? err : JSON.stringify(err));
-
-        this.cdr.detectChanges();
       },
     });
   }

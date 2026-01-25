@@ -1,6 +1,7 @@
 import { ApplicationConfig, provideBrowserGlobalErrorListeners } from '@angular/core';
 import { provideRouter } from '@angular/router';
 import { provideHttpClient } from '@angular/common/http';
+import { provideZonelessChangeDetection } from '@angular/core';
 
 import { routes } from './app.routes';
 import { API_CONFIG } from './core/config/api.config';
@@ -10,6 +11,7 @@ export const appConfig: ApplicationConfig = {
     provideBrowserGlobalErrorListeners(),
     provideRouter(routes),
     provideHttpClient(),
+    provideZonelessChangeDetection(),
 
     { provide: API_CONFIG, useValue: { baseUrl: 'https://api.quwwa.app' } },
   ],
