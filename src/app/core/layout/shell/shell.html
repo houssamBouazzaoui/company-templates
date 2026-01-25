@@ -1,14 +1,7 @@
 <div class="p-3">
-  <div class="flex items-center gap-2">
+  <div class="text-sm">
     <span class="font-semibold">API:</span>
-
-    @if (apiStatus === 'idle') {
-      <span class="text-sm opacity-80">checking…</span>
-    } @else if (apiStatus === 'ok') {
-      <span class="text-sm">OK ✅</span>
-    } @else {
-      <span class="text-sm">ERROR ❌</span>
-    }
+    <span class="ml-2">{{ apiStatus }}</span>
   </div>
 
   @if (apiError) {
@@ -16,6 +9,4 @@
       >{{ apiError }}
     </pre>
   }
-
-  <!-- your existing shell content below -->
 </div>
