@@ -1,19 +1,19 @@
 <div class="p-3">
-  <div class="flex items-center gap-2 text-sm">
-    <span class="font-semibold">API:</span>
+  @if (apiState$ | async; as s) {
+    <div class="flex items-center gap-2 text-sm">
+      <span class="font-semibold">API:</span>
 
-    @if (apiStatus === 'idle') {
-      <span class="opacity-70">checking…</span>
-    } @else if (apiStatus === 'ok') {
-      <span>OK ✅</span>
-    } @else {
-      <span>ERROR ❌</span>
+      @if (s.status === 'idle') {
+        <span class="opacity-70">checking…</span>
+      } @else if (s.status === 'ok') {
+        <span>OK ✅</span>
+      } @else {
+        <span>ERROR ❌</span>
+      }
+    </div>
+
+    @if (s.status === 'error') {
+      <pre class="mt-2 whitespace-pre-wrap rounded border p-2 text-sm">{{ s.error }}</pre>
     }
-  </div>
-
-  @if (apiError) {
-    <pre class="mt-2 whitespace-pre-wrap rounded border p-2 text-sm"
-      >{{ apiError }}
-    </pre>
   }
 </div>

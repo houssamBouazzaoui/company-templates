@@ -1,6 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ApiClient } from '../../api/api-client.service';
+import { Observable, of } from 'rxjs';
+import { catchError, map, startWith } from 'rxjs/operators';
+
+type ApiViewState = { status: 'idle' } | { status: 'ok' } | { status: 'error'; error: string };
 
 @Component({
   selector: 'app-shell',
@@ -9,22 +13,17 @@ import { ApiClient } from '../../api/api-client.service';
   templateUrl: './shell.html',
   styleUrl: './shell.css',
 })
-export class Shell implements OnInit {
-  apiStatus: 'idle' | 'ok' | 'error' = 'idle';
-  apiError: string | null = null;
+export class Shell {
+  private readonly api = inject(ApiClient);
 
-  constructor(private readonly api: ApiClient) {}
-
-  ngOnInit(): void {
-    this.api.healthDb().subscribe({
-      next: () => {
-        this.apiStatus = 'ok';
-        this.apiError = null;
-      },
-      error: (err) => {
-        this.apiStatus = 'error';
-        this.apiError = err?.message ?? (typeof err === 'string' ? err : JSON.stringify(err));
-      },
-    });
-  }
+  readonly apiState$: Observable<ApiViewState> = this.api.healthDb().pipe(
+    map(() => ({ status: 'ok' as const })),
+    startWith({ status: 'idle' as const }),
+    catchError((err) =>
+      of({
+        status: 'error' as const,
+        error: err?.message ?? (typeof err === 'string' ? err : JSON.stringify(err)),
+      }),
+    ),
+  );
 }
